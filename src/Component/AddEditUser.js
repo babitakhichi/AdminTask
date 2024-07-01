@@ -1,14 +1,24 @@
 import { Button, Form, Input } from 'antd';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function AddEditUser({userDeatils,onSubmit}) {
     const [form] = Form.useForm();
-  console.log('in use',userDeatils)
+
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
       };
+      const defaultValues={
+        firstName:userDeatils.firstName||'',
+        lastName:userDeatils.lastName||'',
+        email:userDeatils.email||''
+      }
+      useEffect(() => {
+        form.setFieldsValue(defaultValues)
+       }, [form, defaultValues])
+
   return (
     <Form
+    form={form}
     name="basic"
     labelCol={{
       span: 8,
@@ -19,7 +29,7 @@ function AddEditUser({userDeatils,onSubmit}) {
     style={{
       maxWidth: 600,
     }}
-  
+    initialValues={defaultValues}
     onFinish={(val)=>{ form.resetFields();onSubmit(val)}}
     onFinishFailed={onFinishFailed}
     autoComplete="off"
